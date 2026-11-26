@@ -1,0 +1,117 @@
+name: esp
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'crates/tosca/**/Cargo.lock'
+      - 'crates/tosca/**/*.rs'
+      - 'crates/tosca/**/*.toml'
+
+      - 'crates/tosca-esp32c3/**/Cargo.lock'
+      - 'crates/tosca-esp32c3/**/*.rs'
+      - 'crates/tosca-esp32c3/**/*.sh'
+      - 'crates/tosca-esp32c3/**/*.yml'
+      - 'crates/tosca-esp32c3/**/*.toml'
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+    paths:
+      - 'crates/tosca/**/Cargo.lock'
+      - 'crates/tosca/**/*.rs'
+      - 'crates/tosca/**/*.toml'
+
+      - 'crates/tosca-esp32c3/**/Cargo.lock'
+      - 'crates/tosca-esp32c3/**/*.rs'
+      - 'crates/tosca-esp32c3/**/*.sh'
+      - 'crates/tosca-esp32c3/**/*.yml'
+      - 'crates/tosca-esp32c3/**/*.toml'
+
+jobs:
+  rustfmt-clippy-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt, clippy
+
+      - name: Install ldproxy
+        run: |
+          cargo install ldproxy
+
+################################## tosca-esp32c3 ##############################
+
+      - name: Run rustfmt (tosca-esp32c3)
+        working-directory: crates/tosca-esp32c3
+        run: cargo fmt --all -- --check --verbose
+
+      - name: Run cargo clippy (tosca-esp32c3)
+        working-directory: crates/tosca-esp32c3
+        run: cargo clippy -- -Dclippy::all -Dclippy::pedantic
+
+      - name: Run cargo doc (tosca-esp32c3)
+        working-directory: crates/tosca-esp32c3
+        run: cargo doc --verbose
+
+      - name: Build (tosca-esp32c3)
+        working-directory: crates/tosca-esp32c3
+        run: cargo build --verbose
+
+################################## light ######################################
+
+      - name: Run rustfmt (light)
+        working-directory: crates/tosca-esp32c3/examples/light
+        run: cargo fmt --all -- --check --verbose
+
+      - name: Set up cfg.toml
+        working-directory: crates/tosca-esp32c3/examples/light
+        run: cp cfg.toml.example cfg.toml
+
+      - name: Run cargo clippy (light)
+        working-directory: crates/tosca-esp32c3/examples/light
+        run: cargo clippy -- -Dclippy::all -Dclippy::pedantic
+
+      - name: Build (light)
+        working-directory: crates/tosca-esp32c3/examples/light
+        run: cargo build --verbose
+
+################################## light-with-state ###########################
+
+      - name: Run rustfmt (light-with-state)
+        working-directory: crates/tosca-esp32c3/examples/light-with-state
+        run: cargo fmt --all -- --check --verbose
+
+      - name: Set up cfg.toml
+        working-directory: crates/tosca-esp32c3/examples/light-with-state
+        run: cp cfg.toml.example cfg.toml
+
+      - name: Run cargo clippy (light-with-state)
+        working-directory: crates/tosca-esp32c3/examples/light-with-state
+        run: cargo clippy -- -Dclippy::all -Dclippy::pedantic
+
+      - name: Build (light-with-state)
+        working-directory: crates/tosca-esp32c3/examples/light-with-state
+        run: cargo build --verbose
+
+################################## light-with-events ##########################
+
+      - name: Run rustfmt (light-with-events)
+        working-directory: crates/tosca-esp32c3/examples/light-with-events
+        run: cargo fmt --all -- --check --verbose
+
+      - name: Set up cfg.toml
+        working-directory: crates/tosca-esp32c3/examples/light-with-events
+        run: cp cfg.toml.example cfg.toml
+
+      - name: Run cargo clippy (light-with-events)
+        working-directory: crates/tosca-esp32c3/examples/light-with-events
+        run: cargo clippy -- -Dclippy::all -Dclippy::pedantic
+
+      - name: Build (light-with-events)
+        working-directory: crates/tosca-esp32c3/examples/light-with-events
+        run: cargo build --verbose

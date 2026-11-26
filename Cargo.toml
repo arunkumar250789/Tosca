@@ -1,0 +1,33 @@
+[workspace]
+members = [
+    "crates/tosca",
+    "crates/tosca-os",
+    "crates/tosca-controller",
+]
+exclude = ["crates/tosca-esp32c3"]
+resolver = "2"
+
+[workspace.dependencies]
+hashbrown.version = "0.16"
+hashbrown.default-features = false
+hashbrown.features = ["default-hasher"]
+
+indexmap.version = "2.10"
+indexmap.default-features = false
+
+log.version = "0.4.27"
+
+mdns-sd.version = "0.16.0"
+mdns-sd.default-features = false
+
+serde.version = "1.0"
+serde.default-features = false
+
+serde_json.version = "1"
+serde_json.default-features = false
+
+tokio.version = "1.0"
+tokio.default-features = false
+
+tracing.version = "0.1"
+tracing.default-features = false
