@@ -8,7 +8,7 @@ exclude = ["crates/tosca-esp32c3"]
 resolver = "2"
 
 [workspace.dependencies]
-hashbrown.version = "0.16"
+hashbrown.version = "0.17"
 hashbrown.default-features = false
 hashbrown.features = ["default-hasher"]
 
