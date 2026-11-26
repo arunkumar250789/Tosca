@@ -44,7 +44,7 @@ tosca-os.default-features = false
 tokio.workspace = true
 tokio.features = ["rt", "rt-multi-thread", "macros"]
 
-serial_test.version = "3.2.0"
+serial_test.version = "4.0.1"
 serial_test.default-features = false
 
 tracing-subscriber.version = "0.3"
